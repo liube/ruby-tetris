@@ -1,5 +1,8 @@
-require "tetris/version"
+#require "tetris/version"
 
-module Tetris
-  # Your code goes here...
+
+class Tetris
+  def fred
+    puts "YABADABADU"
+  end
 end

@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require "c:/tetris/lib/tetris.rb" # w/o full path??
+
+puts "Hi, I'm the GUI executable! #{7 * 8}".prepend("WOW! ")
+Tetris.new.fred
