@@ -1,3 +1,4 @@
 #!/usr/bin/env ruby
+require "c:/tetris/lib/tetris.rb"
 
-puts "Hi, I'm an executable! #{7 * 8}".prepend("WOW! ")
+start
