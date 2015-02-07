@@ -23,19 +23,19 @@ def new_game(new_board = Board.new)
 
   while true
     t2 = Time.now
-    t_interval = t2 - t1
+    time_interval = t2 - t1
 
-    if t_interval >= 0.8
+    if time_interval >= 0.8
       system 'cls'
+
+      new_board.block_fall
 
       if new_board.current_block.nil?
         new_board.add_block_at_coords(random_block_at_top)
       end
 
-
-      new_board.block_fall unless new_board.current_block.nil?
       print_board(new_board.board)
-      puts "#{n += 1}. Interval: #{t_interval}"
+      puts "#{n += 1}. Interval: #{time_interval}"
 
       t1 = Time.now
     end

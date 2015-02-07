@@ -14,40 +14,61 @@ class Board
   end
 
   def block_fall
-    @current_block.each {|x,y| @board[x][y] = ' '}
-    @current_block = @current_block.map {|x,y| x, y = x + 1, y}
-    @current_block.each {|x,y| @board[x][y] = '@'}
+    lowest_parts = block_get_lowest_parts
+    next_coords = @current_block.map {|x, y| x, y = x + 1, y}
+
+    if lowest_parts.any? {|x, y| (not in_range? [x + 1, y]) or board[x + 1][y] == '@'}
+      @current_block = nil
+    else
+      alter_cells(next_coords)
+    end
   end
 
   def block_move_left
-    next_coord = @current_block.map {|x,y| x, y = x, y - 1}
+    if not @current_block.nil?
+      most_left_parts = block_most_left_parts
+      next_coords = @current_block.map {|x, y| x, y = x, y - 1}
 
-    if next_coord.all? {|coord| in_range? coord}
-      @current_block.each {|x,y| @board[x][y] = ' '}
-      @current_block = next_coord
-      @current_block.each {|x,y| @board[x][y] = '@'}
+      if most_left_parts.all? {|x, y| in_range? [x, y - 1] and board[x][y - 1] != '@'}
+        alter_cells(next_coords)
+      end
     end
   end
 
   def block_move_right
-    next_coord = @current_block.map {|x,y| x, y = x, y + 1}
+    if not @current_block.nil?
+      most_right_parts = block_most_right_parts
+      next_coords = @current_block.map {|x, y| x, y = x, y + 1}
 
-    if next_coord.all? {|coord| in_range? coord}
-      @current_block.each {|x,y| @board[x][y] = ' '}
-      @current_block = next_coord
-      @current_block.each {|x,y| @board[x][y] = '@'}
+      if most_right_parts.all? {|x, y| in_range? [x, y + 1] and board[x][y + 1] != '@'}
+        alter_cells(next_coords)
+      end
     end
   end
 
   private
+
+  def alter_cells(coords)
+    @current_block.each {|x, y| @board[x][y] = ' '}
+    @current_block = coords
+    @current_block.each {|x, y| @board[x][y] = '@'}
+  end
 
   def in_range?(coord)
     coord[0] >= 0 and coord[0] < @size[0] and
     coord[1] >= 0 and coord[1] < @size[1]
   end
 
-  def block_or_bottom_under(height, board_height)
+  def block_get_lowest_parts(coords = @current_block)
+    coords.select {|x, y| not coords.any? {|coord| coord == [x + 1, y]}}
+  end
 
+  def block_most_left_parts(coords = @current_block)
+    coords.select {|x, y| not coords.any? {|coord| coord == [x, y - 1]}}
+  end
+
+  def block_most_right_parts(coords = @current_block)
+    coords.select {|x, y| not coords.any? {|coord| coord == [x, y + 1]}}
   end
 end
 
