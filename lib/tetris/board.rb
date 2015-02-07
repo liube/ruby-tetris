@@ -4,6 +4,7 @@ class Board
 
   def initialize(board = starting_board)
     @board = board
+    @size = [board.size, board.first.size]
     add_block_at_coords(random_block_at_top)
   end
 
@@ -19,15 +20,34 @@ class Board
   end
 
   def block_move_left
-    @current_block.each {|x,y| @board[x][y] = ' '}
-    @current_block = @current_block.map {|x,y| x, y = x, y - 1}
-    @current_block.each {|x,y| @board[x][y] = '@'}
+    next_coord = @current_block.map {|x,y| x, y = x, y - 1}
+
+    if next_coord.all? {|coord| in_range? coord}
+      @current_block.each {|x,y| @board[x][y] = ' '}
+      @current_block = next_coord
+      @current_block.each {|x,y| @board[x][y] = '@'}
+    end
   end
 
   def block_move_right
-    @current_block.each {|x,y| @board[x][y] = ' '}
-    @current_block = @current_block.map {|x,y| x, y = x, y + 1}
-    @current_block.each {|x,y| @board[x][y] = '@'}
+    next_coord = @current_block.map {|x,y| x, y = x, y + 1}
+
+    if next_coord.all? {|coord| in_range? coord}
+      @current_block.each {|x,y| @board[x][y] = ' '}
+      @current_block = next_coord
+      @current_block.each {|x,y| @board[x][y] = '@'}
+    end
+  end
+
+  private
+
+  def in_range?(coord)
+    coord[0] >= 0 and coord[0] < @size[0] and
+    coord[1] >= 0 and coord[1] < @size[1]
+  end
+
+  def block_or_bottom_under(height, board_height)
+
   end
 end
 
@@ -68,6 +88,5 @@ def blocks_initial_coords
    6 => [[0,3], [1,3], [1,4], [1,5]],}
 end
 
-def possible_move?
 
-end
+

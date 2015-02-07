@@ -32,10 +32,9 @@ def new_game(new_board = Board.new)
         new_board.add_block_at_coords(random_block_at_top)
       end
 
-      new_board.block_fall
+
+      new_board.block_fall unless new_board.current_block.nil?
       print_board(new_board.board)
-
-
       puts "#{n += 1}. Interval: #{t_interval}"
 
       t1 = Time.now

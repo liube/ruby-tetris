@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
-require "c:/tetris/lib/tetris.rb"
+require 'c:/tetris/lib/tetris.rb'
 
 start
