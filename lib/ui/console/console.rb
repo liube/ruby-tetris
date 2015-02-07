@@ -38,7 +38,6 @@ end
 def start
   choice = ''
   while choice != 'q'
-
     case choice
       when 'n' then new_game
       when 's' then puts 'Save game'
@@ -63,28 +62,44 @@ def new_game(new_board = Board.new)
     t2 = Time.now
     t_interval = t2 - t1
 
-    char = (Win32API.new('crtdll', '_kbhit', [ ], 'I').Call.zero? ?
-            nil :
-            Win32API.new('crtdll', '_getch', [ ], 'L').Call)
-
     if t_interval >= 0.8
       system 'cls'
 
-      new_board.add_block_at_coords(random_block) if new_board.current_block.nil?
+      new_board.add_block_at_coords(random_block_at_top) if new_board.current_block.nil?
 
       new_board.block_fall
       print_board(new_board.board)
+
 
       puts "#{n += 1}. Interval: #{t_interval}"
 
       t1 = Time.now
     end
 
-    unless char.nil?
-      break if char.chr == 'm'
+    input = get_input
+
+    unless input.nil?
+      case input.chr
+        when 'm' then break
+        when 'a' then alter_board(new_board) {|board| board.block_move_left}
+        when 'd' then alter_board(new_board) {|board| board.block_move_right}
+      end
     end
   end
 end
+
+def alter_board(board)
+  system 'cls'
+  yield board
+  print_board(board.board)
+end
+
+def get_input
+  Win32API.new('crtdll', '_kbhit', [ ], 'I').Call.zero? ?
+            nil :
+            Win32API.new('crtdll', '_getch', [ ], 'L').Call
+end
+
 
 
 

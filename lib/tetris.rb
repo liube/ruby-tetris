@@ -34,7 +34,7 @@ class Board
 
   def initialize(board = starting_board)
     @board = board
-    add_block_at_coords(random_block)
+    add_block_at_coords(random_block_at_top)
   end
 
   def add_block_at_coords(coords)
@@ -47,9 +47,21 @@ class Board
     @current_block = @current_block.map {|x,y| x, y = x + 1, y}
     @current_block.each {|x,y| @board[x][y] = '@'}
   end
+
+  def block_move_left
+    @current_block.each {|x,y| @board[x][y] = ' '}
+    @current_block = @current_block.map {|x,y| x, y = x, y - 1}
+    @current_block.each {|x,y| @board[x][y] = '@'}
+  end
+
+  def block_move_right
+    @current_block.each {|x,y| @board[x][y] = ' '}
+    @current_block = @current_block.map {|x,y| x, y = x, y + 1}
+    @current_block.each {|x,y| @board[x][y] = '@'}
+  end
 end
 
-def random_block
+def random_block_at_top
   blocks_initial_coords[rand(7)]
 end
 
@@ -63,7 +75,7 @@ def blocks_initial_coords
    6 => [[0,3], [1,3], [1,4], [1,5]],}
 end
 
-def impossible_position
+def possible_move?
 
 end
 
