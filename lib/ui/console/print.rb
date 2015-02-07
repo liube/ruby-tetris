@@ -17,11 +17,11 @@ module Print
     puts '|                                         |'
     puts '|                CONTROLS                 |'
     puts '|                                         |'
-    puts '|        left arrow  -  move left         |'
-    puts '|       right arrow  -  move right        |'
-    puts '|          up arrow  -  rotate            |'
-    puts '|        down arrow  -  fall faster       |'
-    puts '|                 m  -  menu              |'
+    puts '|              w  -  rotate               |'
+    puts '|              a  -  move left            |'
+    puts '|              s  -  fall faster          |'
+    puts '|              d  -  move right           |'
+    puts '|              m  -  menu                 |'
     puts '|_________________________________________|'
   end
 
